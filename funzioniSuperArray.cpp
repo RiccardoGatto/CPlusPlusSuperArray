@@ -33,7 +33,7 @@ int *aggiungiInTesta(int base[], int dim, int nuovo)
     mostra(arrayRis, dim + 1);
     return arrayRis;
 }
-int *aggiungiInPosizione(int base[], int dim, int nuovo, int posizione)
+int *aggiungiInPosizione(int base[], int dim, int nuovo, int posizione) // NON INDICE, MA POSIZIONE
 {
     int arrayRis[dim + 1];
     for (int i = 0; i < posizione - 1; i++)
@@ -49,18 +49,18 @@ int *aggiungiInPosizione(int base[], int dim, int nuovo, int posizione)
     mostra(arrayRis, dim + 1);
     return arrayRis;
 }
-int trovaPosizione(int base[], int dim, int cerca)
+int trovaPosizione(int base[], int dim, int cerca) // RESTITUISCE L'INDICE DELLA PRIMA OCCORRENZA
 {
     for (int i = 0; i < dim; i++)
     {
         if (base[i] == cerca)
         {
-            return i + 1;
+            return i;
         }
     }
     return -1;
 }
-int *aggiornaInPosizione(int base[], int dim, int valore, int posizione)
+int *aggiornaInPosizione(int base[], int dim, int valore, int posizione) // NON INDICE, MA POSIZIONE
 {
     base[posizione - 1] = valore;
     cout << "Aggiorno numero in posizione " << posizione << " con il numero " << valore << endl;
@@ -105,7 +105,7 @@ int main()
     int dim = sizeof(base) / sizeof(base[0]);
     int nuovo = 11;
     int posizione = 3;
-    int daTrovare = 7;
+    int daTrovare = 11;
     int *array1 = aggiungiInFondo(base, dim, nuovo);
     cout << endl;
     int *array2 = aggiungiInTesta(base, dim, nuovo);
