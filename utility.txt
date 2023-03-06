@@ -1,0 +1,28 @@
+void riempi(int arr[], int lung)
+{
+    for (int i = 0; i < lung; i++) // RIEMPIO L'ARRAY
+    {
+        cout << "Ora inserisci il " << i + 1 << " numero: ";
+        cin >> arr[i];
+    }
+}
+
+void mostra(int arr[], int lung)
+{
+    for (int i = 0; i < lung; i++)
+    {
+        cout << i + 1 << " elemento: " << arr[i] << endl;
+    }
+}
+
+bool presente(int num, int arr[], int lung)
+{
+    for (int i = 0; i < lung; i++)
+    {
+        if (num == arr[i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
