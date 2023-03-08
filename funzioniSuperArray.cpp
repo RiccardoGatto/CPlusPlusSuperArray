@@ -2,6 +2,19 @@
 #include <iostream>
 using namespace std;
 
+int conta(int numero, int arr[], int lung)
+{
+    int cont = 0;
+    for (int i = 0; i < lung; i++)
+    {
+        if (arr[i] == numero)
+        {
+            cont++;
+        }
+    }
+    return cont;
+}
+
 bool presente(int num, int arr[], int lung)
 {
     for (int i = 0; i < lung; i++)
@@ -31,7 +44,6 @@ int *aggiungiInFondo(int base[], int dim, int nuovo)
         arrayRis[i] = base[i];
     }
     arrayRis[dim] = nuovo;
-    cout << "\nAggiungo in fondo " << nuovo << endl;
     return arrayRis;
 }
 
@@ -43,7 +55,6 @@ int *aggiungiInTesta(int base[], int dim, int nuovo)
     {
         arrayRis[i] = base[i - 1];
     }
-    cout << "\nAggiungo in testa " << nuovo << endl;
     return arrayRis;
 }
 
@@ -51,7 +62,6 @@ int *aggiungiInPosizione(int base[], int dim, int nuovo, int posizione) // AGGIU
 {
     if (posizione >= dim)
     {
-        cout << "L'indice si trova al di fuori del range dell'array";
         return base;
     }
     else
@@ -66,7 +76,6 @@ int *aggiungiInPosizione(int base[], int dim, int nuovo, int posizione) // AGGIU
         {
             arrayRis[i] = base[i - 1];
         }
-        cout << "\nAggiungo in indice " << posizione << " il numero " << nuovo << endl;
         return arrayRis;
     }
 }
@@ -87,7 +96,6 @@ int *aggiornaInPosizione(int base[], int dim, int valore, int posizione) // AGGI
 {
     if (posizione >= dim)
     {
-        cout << "L'indice si trova al di fuori del range dell'array";
         return base;
     }
     else
@@ -102,7 +110,6 @@ int *aggiornaInPosizione(int base[], int dim, int valore, int posizione) // AGGI
         {
             arrayRis[i] = base[i];
         }
-        cout << "\nAggiorno l'elemento di indice " << posizione << " con il valore " << valore << endl;
         return arrayRis;
     }
 }
@@ -111,7 +118,6 @@ int *rimuoviIndex(int base[], int dim, int posizione)
 {
     if (posizione >= dim)
     {
-        cout << "L'indice si trova al di fuori del range dell'array";
         return base;
     }
     else
@@ -125,7 +131,6 @@ int *rimuoviIndex(int base[], int dim, int posizione)
         {
             arrayRis[i] = base[i + 1];
         }
-        cout << "\nElimino l'elemento di indice " << posizione << endl;
         return arrayRis;
     }
 }
@@ -134,7 +139,6 @@ int *rimuovi(int base[], int dim, int valore) // RIMUOVE LA PRIMA OCCORRENZA
 {
     if (!presente(valore, base, dim))
     {
-        cout << "L'elemento da eliminare non e' presente nell'array";
         return base;
     }
     else
@@ -151,78 +155,113 @@ int *rimuovi(int base[], int dim, int valore) // RIMUOVE LA PRIMA OCCORRENZA
             arrayRis[i] = base[i + 1];
             i++;
         }
-        cout << "\nElimino la prima occorrenza del numero " << valore << endl;
         return arrayRis;
     }
 }
 
 int *rimuoviAll(int base[], int dim, int valore) // RIMUOVE TUTTE LE OCCORRENZE
 {
-    if (!presente(valore, base, dim))
+    int cont = conta(valore, base, dim);
+    int newDim = dim - cont;
+    int *arrayRis = new int[newDim];
+    int i = 0;
+    int j = 0;
+    while (i < dim)
     {
-        cout << "L'elemento da eliminare non e' presente nell'array";
-        return base;
-    }
-    else
-    {
-        int cont = 0;
-        for (int i = 0; i < dim; i++)
+        while (base[i] != valore)
         {
-            if (base[i] == valore)
-            {
-                cont++;
-            }
-        }
-        int newDim = dim - cont;
-        int *arrayRis = new int[newDim];
-        int i = 0;
-        int j = 0;
-        while (i < dim)
-        {
-            while (base[i] != valore)
-            {
-                arrayRis[j] = base[i];
-                i++;
-                j++;
-            }
+            arrayRis[j] = base[i];
             i++;
+            j++;
         }
-        cout << "\nElimino tutte le occorrenze del numero " << valore << endl;
-        mostra(arrayRis, newDim);
-        return arrayRis;
+        i++;
     }
+    return arrayRis;
 }
 
 int main()
 {
     int base[] = {6, 8, 7, 8, 8, 9};
     int dim = sizeof(base) / sizeof(base[0]);
-    int nuovo = 11;
-    int posizione = 4;
-    int daTrovare = 8;
-    cout << "-------------------------------------------";
-    int *array1 = aggiungiInFondo(base, dim, nuovo);
-    mostra(array1, dim+1);
-    cout << "-------------------------------------------";
-    int *array2 = aggiungiInTesta(base, dim, nuovo);
-    mostra(array2, dim+1);
-    cout << "-------------------------------------------";
-    int *array3 = aggiungiInPosizione(base, dim, nuovo, posizione);
-    mostra(array3, dim+1);
-    cout << "-------------------------------------------";
-    cout << "\nElemento " << daTrovare << " si trova in indice " << trovaPosizione(base, dim, daTrovare) << endl;
-    cout << "-------------------------------------------";
-    int *array4 = aggiornaInPosizione(base, dim, nuovo, posizione);
-    mostra(array4, dim);
-    cout << "-------------------------------------------";
-    int *array5 = rimuoviIndex(base, dim, posizione);
-    mostra(array5, dim-1);
-    cout << "-------------------------------------------";
-    int *array6 = rimuovi(base, dim, daTrovare);
-    mostra(array6, dim-1);
-    cout << "-------------------------------------------";
-    int *array7 = rimuoviAll(base, dim, daTrovare);
-    cout << "-------------------------------------------";
+    int daAggiungere = 11;
+    int daCercare = 6;
+    int daEliminare = 14;
+    int indice = 2;
+    cout << "-------------------------------------------" << endl;
+    cout << "Aggiungo in fondo " << daAggiungere << endl;
+    int *array1 = aggiungiInFondo(base, dim, daAggiungere);
+    mostra(array1, dim + 1);
+    cout << "-------------------------------------------" << endl;
+    cout << "Aggiungo in testa " << daAggiungere << endl;
+    int *array2 = aggiungiInTesta(base, dim, daAggiungere);
+    mostra(array2, dim + 1);
+    cout << "-------------------------------------------" << endl;
+    cout << "Aggiungo in indice " << indice << " il numero " << daAggiungere << endl;
+    int *array3 = aggiungiInPosizione(base, dim, daAggiungere, indice);
+    if (array3 == base)
+    {
+        cout << "L'indice si trova al di fuori del range dell'array" << endl;
+    }
+    else
+    {
+        mostra(array3, dim + 1);
+    }
+    cout << "-------------------------------------------" << endl;
+    int pos = trovaPosizione(base, dim, daCercare);
+    if (pos == -1)
+    {
+        cout << "Elemento non trovato" << endl;
+    }
+    else
+    {
+        cout << "Elemento " << daCercare << " si trova in indice " << pos << endl;
+    }
+    cout << "-------------------------------------------" << endl;
+    cout << "Aggiorno l'elemento di indice " << indice << " con il valore " << daAggiungere << endl;
+    int *array4 = aggiornaInPosizione(base, dim, daAggiungere, indice);
+    if (array4 == base)
+    {
+        cout << "L'indice si trova al di fuori del range dell'array" << endl;
+    }
+    else
+    {
+        mostra(array4, dim);
+    }
+    cout << "-------------------------------------------" << endl;
+    cout << "Elimino l'elemento di indice " << indice << endl;
+    int *array5 = rimuoviIndex(base, dim, indice);
+    if (array5 == base)
+    {
+        cout << "L'indice si trova al di fuori del range dell'array" << endl;
+    }
+    else
+    {
+        mostra(array5, dim - 1);
+    }
+    cout << "-------------------------------------------" << endl;
+    cout << "Elimino la prima occorrenza del numero " << daEliminare << endl;
+    int *array6 = rimuovi(base, dim, daEliminare);
+    if (array6 == base)
+    {
+        cout << "Elemento da eliminare non trovato" << endl;
+    }
+    else
+    {
+        mostra(array6, dim - 1);
+    }
+    cout << "-------------------------------------------" << endl;
+    cout << "Elimino tutte le occorrenze del numero " << daEliminare << endl;
+    int quantiEliminati = conta(daEliminare, base, dim);
+    if (quantiEliminati == 0)
+    {
+        cout << "Elemento da eliminare non trovato" << endl;
+    }
+    else
+    {
+        int *array7 = rimuoviAll(base, dim, daEliminare);
+        mostra(array7, dim - quantiEliminati);
+    }
+    cout << "-------------------------------------------" << endl;
     cout << endl;
     return 0;
 }
